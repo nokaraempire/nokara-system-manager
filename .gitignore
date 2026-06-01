@@ -2,6 +2,7 @@
 bin/
 obj/
 publish/
+release/
 **/publish/
 **/bin/
 **/obj/
@@ -19,6 +20,8 @@ publish/
 *.pdb
 *.ilk
 *.exe
+*.zip
+*.sha256
 *.dll
 *.deps.json
 *.runtimeconfig.json
