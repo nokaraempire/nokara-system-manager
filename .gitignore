@@ -1,0 +1,72 @@
+# Build outputs
+bin/
+obj/
+publish/
+**/publish/
+**/bin/
+**/obj/
+
+# Visual Studio / IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Debug symbols and generated binaries
+*.pdb
+*.ilk
+*.exe
+*.dll
+*.deps.json
+*.runtimeconfig.json
+
+# Test and coverage outputs
+TestResults/
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+
+# NuGet / package outputs
+*.nupkg
+*.snupkg
+packages/
+project.assets.json
+project.nuget.cache
+
+# Logs and local runtime data
+*.log
+logs/
+AppData/
+NokaraSystemManager/
+*.local
+*.local.json
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
+*.swp
+Thumbs.db
+Desktop.ini
+
+# Local visual verification captures
+visual-preview*/
+
+# Keep source/config/docs/scripts/templates tracked
+!Config/
+!Config/known-processes.json
+!Config/social-links.json
+!scripts/
+!docs/
+!docs/screenshots/
+!docs/screenshots/.gitkeep
+!README.md
+!SECURITY.md
+!CHANGELOG.md
+!LICENSE
+!.github/

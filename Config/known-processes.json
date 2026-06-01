@@ -1,0 +1,114 @@
+[
+  {
+    "ProcessName": "steam",
+    "DisplayName": "Steam",
+    "Category": "GameLauncher",
+    "Notes": "Launcher de juegos. Puede quedar abierto tras iniciar un juego.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "steamwebhelper",
+    "DisplayName": "Steam WebHelper",
+    "Category": "GameLauncher",
+    "Notes": "Componente de Steam; puede consumir RAM.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "EpicGamesLauncher",
+    "DisplayName": "Epic Games Launcher",
+    "Category": "GameLauncher",
+    "Notes": "Launcher de juegos.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "RiotClientServices",
+    "DisplayName": "Riot Client",
+    "Category": "GameLauncher",
+    "Notes": "Launcher de Riot.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "obs64",
+    "DisplayName": "OBS Studio",
+    "Category": "Streaming",
+    "Notes": "Captura y streaming. AboveNormal puede ayudar si hay tirones.",
+    "DefaultPriorityRecommendation": "AboveNormal"
+  },
+  {
+    "ProcessName": "Streamlabs OBS",
+    "DisplayName": "Streamlabs",
+    "Category": "Streaming",
+    "Notes": "Captura y streaming.",
+    "DefaultPriorityRecommendation": "AboveNormal"
+  },
+  {
+    "ProcessName": "TikTok Live Studio",
+    "DisplayName": "TikTok Live Studio",
+    "Category": "Streaming",
+    "Notes": "Captura y streaming.",
+    "DefaultPriorityRecommendation": "AboveNormal"
+  },
+  {
+    "ProcessName": "Discord",
+    "DisplayName": "Discord",
+    "Category": "Communication",
+    "Notes": "Comunicacion de voz y chat. Mantener Normal o AboveNormal.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "chrome",
+    "DisplayName": "Google Chrome",
+    "Category": "Browser",
+    "Notes": "Navegador web. Revisar consumo durante gaming/streaming.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "msedge",
+    "DisplayName": "Microsoft Edge",
+    "Category": "Browser",
+    "Notes": "Navegador web.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "firefox",
+    "DisplayName": "Mozilla Firefox",
+    "Category": "Browser",
+    "Notes": "Navegador web.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "wallpaper64",
+    "DisplayName": "Wallpaper Engine",
+    "Category": "Multimedia",
+    "Notes": "Puede afectar FPS/input lag; pausar o cerrar manualmente antes de competitivo.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "wallpaper32",
+    "DisplayName": "Wallpaper Engine",
+    "Category": "Multimedia",
+    "Notes": "Puede afectar FPS/input lag; pausar o cerrar manualmente antes de competitivo.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "GameBar",
+    "DisplayName": "Xbox Game Bar",
+    "Category": "Multimedia",
+    "Notes": "Overlay/captura de Xbox.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "RadeonSoftware",
+    "DisplayName": "AMD Radeon Software",
+    "Category": "Multimedia",
+    "Notes": "Overlay/configuracion GPU AMD.",
+    "DefaultPriorityRecommendation": "Normal"
+  },
+  {
+    "ProcessName": "NVIDIA Share",
+    "DisplayName": "NVIDIA Share",
+    "Category": "Multimedia",
+    "Notes": "Overlay/captura NVIDIA.",
+    "DefaultPriorityRecommendation": "Normal"
+  }
+]
