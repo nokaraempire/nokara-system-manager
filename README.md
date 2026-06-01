@@ -2,7 +2,7 @@
 
 Windows maintenance, gaming, streaming and diagnostics toolkit with a premium WPF interface and a PowerShell Lite mode.
 
-Nokara System Manager is designed to help users review common Windows performance issues, run safe maintenance actions, inspect processes, generate reports and apply guided profiles for gaming or streaming setups.
+Nokara System Manager helps users review common Windows performance issues, run safe maintenance actions, inspect processes, generate reports and apply guided profiles for gaming or streaming setups.
 
 It does **not** promise magic FPS gains. It focuses on diagnosis, safe actions, clear explanations, logs, backups and reversibility when possible.
 
@@ -83,6 +83,74 @@ irm "https://raw.githubusercontent.com/nokaraempire/nokara-system-manager/main/s
 ```
 
 The launcher uses GitHub Releases as the download source.
+
+---
+
+## Windows SmartScreen warning
+
+When running `NokaraSystemManager.exe`, Windows may show this warning:
+
+```text
+Windows protected your PC
+Microsoft Defender SmartScreen prevented an unrecognized app from starting.
+Publisher: Unknown publisher
+```
+
+This warning can appear because Nokara System Manager is currently a new unsigned executable. Windows may warn about apps that do not yet have publisher reputation or enough download history.
+
+This does **not automatically mean the app is malware**, but users should still be careful and only run files downloaded from the official Nokara Empire repository.
+
+Official release page:
+
+```text
+https://github.com/nokaraempire/nokara-system-manager/releases/latest
+```
+
+To run the app after downloading it from the official release:
+
+1. Click **More info**.
+2. Confirm the app name is:
+
+```text
+NokaraSystemManager.exe
+```
+
+3. Confirm the publisher appears as:
+
+```text
+Unknown publisher
+```
+
+4. Click **Run anyway**.
+
+Do **not** run reuploaded, modified or random fork versions unless you reviewed the code and trust the source.
+
+Long term, this warning can be reduced by signing the executable with a code-signing certificate or distributing through a trusted store. For now, SHA256 hashes are provided in each release so users can verify file integrity.
+
+---
+
+## Verify SHA256
+
+Release assets include SHA256 files:
+
+```text
+NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
+NokaraSystemManager.exe.sha256
+```
+
+To verify the downloaded ZIP with PowerShell:
+
+```powershell
+Get-FileHash .\NokaraSystemManager-v1.1.1-win-x64-portable.zip -Algorithm SHA256
+```
+
+Compare the result with the value inside:
+
+```text
+NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
+```
+
+The EXE hash is included for the executable inside the extracted portable folder.
 
 ---
 
@@ -185,7 +253,7 @@ It does **not**:
 * Disable Windows Firewall.
 * Disable Windows Update.
 * Touch anti-cheats.
-* Use BCDEDIT.
+* Use BCDEdit tweaks.
 * Touch HPET.
 * Apply MSI Mode tweaks.
 * Modify drivers.
@@ -197,47 +265,6 @@ It does **not**:
 * Promise unrealistic FPS improvements.
 
 Sensitive actions show explanations and confirmations before running.
-
----
-
-## SmartScreen note
-
-Windows SmartScreen may show a warning because the EXE is new and unsigned.
-
-That does not automatically mean the file is unsafe. It means Windows does not yet recognize the file or publisher reputation.
-
-Only download Nokara System Manager from the official repository:
-
-```text
-https://github.com/nokaraempire/nokara-system-manager
-```
-
-Do not download random forks, reuploads or modified versions unless you understand the changes.
-
----
-
-## Verify SHA256
-
-Release assets include SHA256 files:
-
-```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
-NokaraSystemManager.exe.sha256
-```
-
-To verify the downloaded ZIP with PowerShell:
-
-```powershell
-Get-FileHash .\NokaraSystemManager-v1.1.1-win-x64-portable.zip -Algorithm SHA256
-```
-
-Compare the result with:
-
-```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
-```
-
-The EXE hash is included for the executable inside the extracted portable folder.
 
 ---
 
@@ -359,6 +386,8 @@ NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
 NokaraSystemManager.exe.sha256
 ```
 
+For normal users, download the portable ZIP. GitHub may also show automatic source code archives, but those are mainly for developers.
+
 Do not commit publish outputs or EXE binaries to the repository source tree. Upload release binaries to GitHub Releases instead.
 
 ---
@@ -403,6 +432,7 @@ When screenshots are available, enable this section:
 * Some actions require administrator permissions.
 * Storage repair actions are intentionally conservative.
 * Advanced network actions can temporarily interrupt connectivity and require confirmation.
+* Users should only download official releases from the Nokara Empire repository.
 
 ---
 
