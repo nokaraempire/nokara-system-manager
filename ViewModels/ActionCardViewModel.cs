@@ -37,14 +37,20 @@ public sealed class ActionCardViewModel : ViewModelBase
     public bool RequiresRestart => Action.RequiresRestart;
     public bool IsImplemented => Action.IsImplemented;
     public bool IsAdvanced => Action.IsAdvanced;
-    public string ModeLabel => IsAdvanced ? "Avanzado" : "Básico";
-    public string ExecuteLabel => IsImplemented ? "Ejecutar" : "Pendiente";
+    public string ModeLabel => IsAdvanced ? "Avanzado" : "Basico";
+    public string ExecuteLabel => !IsImplemented ? "No disponible" : !Action.IsEnabled ? "Bloqueado" : IsRunning ? "Ejecutando" : "Ejecutar";
     public ICommand ExecuteCommand { get; }
 
     public bool IsRunning
     {
         get => _isRunning;
-        private set => SetProperty(ref _isRunning, value);
+        private set
+        {
+            if (SetProperty(ref _isRunning, value))
+            {
+                OnPropertyChanged(nameof(ExecuteLabel));
+            }
+        }
     }
 
     public string LastResult
@@ -66,7 +72,7 @@ public sealed class ActionCardViewModel : ViewModelBase
             }
             else if (Action.ExecuteAsync is null)
             {
-                result = ActionResult.Fail(Action.Name, string.IsNullOrWhiteSpace(Action.DisabledReason) ? "Acción no disponible." : Action.DisabledReason);
+                result = ActionResult.Fail(Action.Name, string.IsNullOrWhiteSpace(Action.DisabledReason) ? "Accion no disponible." : Action.DisabledReason);
             }
             else if (!await ConfirmIfNeededAsync())
             {
@@ -87,7 +93,7 @@ public sealed class ActionCardViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            result = ActionResult.Fail(Action.Name, "Error inesperado al ejecutar la acción.", ex);
+            result = ActionResult.Fail(Action.Name, "Error inesperado al ejecutar la accion.", ex);
             LastResult = result.Message;
             await _services.Backup.AddActionHistoryAsync(Action.Module, Action.Id, Action.Name, result);
             await _services.Logging.LogActionResultAsync(Action.Module, Action.Name, result);
@@ -112,9 +118,9 @@ public sealed class ActionCardViewModel : ViewModelBase
         }
 
         var message = string.IsNullOrWhiteSpace(Action.ConfirmationMessage)
-            ? $"{Action.Name}\n\n{Action.Description}\n\nRiesgo: {RiskLabel}\nReversible: {(Action.IsReversible ? "Sí" : "No")}\n\n¿Querés ejecutar esta acción?"
+            ? $"{Action.Name}\n\n{Action.Description}\n\nRiesgo: {RiskLabel}\nReversible: {(Action.IsReversible ? "Si" : "No")}\n\nQueres ejecutar esta accion?"
             : Action.ConfirmationMessage;
 
-        return MessageBox.Show(message, "Confirmar acción sensible", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
+        return MessageBox.Show(message, "Confirmar accion sensible", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
     }
 }

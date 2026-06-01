@@ -219,7 +219,7 @@ public sealed class DashboardViewModel : ViewModelBase
             TargetSection = "Perfiles",
             IsImplemented = false,
             DisabledReason = "El perfil post-formateo necesita validaciones adicionales para no aplicar cambios agresivos.",
-            PreviewText = "Planeado para V2: asistente paso a paso sin tweaks peligrosos ni servicios críticos."
+            PreviewText = "Pendiente posterior a v1.2.0: asistente paso a paso sin tweaks peligrosos ni servicios críticos."
         });
         GuidedCards.Add(new GuidedActionCard
         {

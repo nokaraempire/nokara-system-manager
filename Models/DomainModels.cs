@@ -279,7 +279,7 @@ public sealed class CleanupEstimateItem
 public sealed class AppSettings
 {
     public bool ExtraConfirmations { get; set; } = true;
-    public bool ExpertMode { get; set; }
+    public bool ExpertMode { get; set; } = true;
     public string PreferredDnsProvider { get; set; } = "Automatico";
     public DateTimeOffset? LastCleanup { get; set; }
     public DateTimeOffset? LastGamingOptimization { get; set; }
@@ -364,6 +364,7 @@ public sealed class DiagnosticCard
     public bool IsReversible { get; set; }
     public bool CanApply { get; set; }
     public string DisabledReason { get; set; } = string.Empty;
+    public string ApplyButtonText => CanApply ? "Ejecutar" : "No disponible";
 }
 
 public sealed class ProfileStep

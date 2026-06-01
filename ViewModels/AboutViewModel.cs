@@ -26,7 +26,9 @@ public sealed class AboutViewModel : ViewModelBase
     public string Subtitle => "Gaming, Streaming & Maintenance Toolkit";
     public string Creator => "Nokara Empire";
     public string Developer => "kkshi / Fabián Almada";
-    public string Version => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.1.0";
+    public string Version => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+        ?? Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)
+        ?? "1.2.0";
     public string DataPath => AppPaths.AppDataRoot;
     public string SafetyNote => "Esta herramienta no promete FPS mágicos. Aplica mantenimiento, ajustes seguros y perfiles de uso. Los resultados dependen del hardware, Windows, drivers y configuración de cada PC.";
     public ObservableCollection<SocialLinkItem> SocialLinks { get; } = [];

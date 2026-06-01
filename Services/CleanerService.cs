@@ -22,7 +22,7 @@ public sealed class CleanerService
         [
             Estimate("Temporales del usuario", Path.GetTempPath(), false),
             Estimate("Temporales de Windows", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Temp"), true),
-            Estimate("Caché de miniaturas", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Explorer"), false, "thumbcache_*.db"),
+            Estimate("Cache de miniaturas", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Explorer"), false, "thumbcache_*.db"),
             Estimate("DirectX Shader Cache", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "D3DSCache"), false),
             Estimate("Logs viejos de Nokara", AppPaths.Logs, false, "*.log")
         ];
@@ -31,13 +31,13 @@ public sealed class CleanerService
 
     public async Task<ActionResult> CleanUserTempAsync(CancellationToken cancellationToken = default) => await CleanPathAsync("Limpiar TEMP usuario", Path.GetTempPath(), "Temporales del usuario eliminados.", cancellationToken);
     public async Task<ActionResult> CleanWindowsTempAsync(CancellationToken cancellationToken = default) => await CleanPathAsync("Limpiar TEMP Windows", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Temp"), "Temporales de Windows eliminados.", cancellationToken);
-    public async Task<ActionResult> CleanThumbnailCacheAsync(CancellationToken cancellationToken = default) => await CleanPathAsync("Limpiar miniaturas", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Explorer"), "Caché de miniaturas limpiada.", cancellationToken, "thumbcache_*.db");
+    public async Task<ActionResult> CleanThumbnailCacheAsync(CancellationToken cancellationToken = default) => await CleanPathAsync("Limpiar miniaturas", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Explorer"), "Cache de miniaturas limpiada.", cancellationToken, "thumbcache_*.db");
     public async Task<ActionResult> CleanDirectXShaderCacheAsync(CancellationToken cancellationToken = default) => await CleanPathAsync("Limpiar DirectX Shader Cache", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "D3DSCache"), "Cache DirectX Shader limpiada.", cancellationToken);
 
     public Task<ActionResult> CleanWindowsUpdateCacheAsync(CancellationToken cancellationToken = default)
     {
-        var result = ActionResult.Fail("Limpiar caché Windows Update", "Acción deshabilitada en V1. Pendiente de implementación segura.");
-        result.Details = "No se desactiva Windows Update ni se borran componentes críticos.";
+        var result = ActionResult.Fail("Limpiar cache Windows Update", "Accion pendiente en v1.2.0 hasta validar un flujo seguro de backup y reversion.");
+        result.Details = "No se desactiva Windows Update ni se borran componentes criticos.";
         return Task.FromResult(result);
     }
 
@@ -65,7 +65,7 @@ public sealed class CleanerService
     {
         try
         {
-            if (!Directory.Exists(path)) return ActionResult.Ok(title, "La carpeta no existe o no está disponible.");
+            if (!Directory.Exists(path)) return ActionResult.Ok(title, "La carpeta no existe o no esta disponible.");
             var freed = await Task.Run(() => CleanDirectory(path, pattern, cancellationToken, onlyOlderThanDays), cancellationToken);
             await _logging.LogInfoAsync($"{title}: {FormatHelper.Bytes(freed)}");
             return ActionResult.Ok(title, $"{successMessage} Espacio liberado: {FormatHelper.Bytes(freed)}", spaceFreedBytes: freed);

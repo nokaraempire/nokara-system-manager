@@ -1,13 +1,15 @@
 # Usage
 
-Nokara System Manager has two supported entry points:
+Nokara System Manager has four public entry points:
 
 - Full WPF EXE for the complete desktop experience.
-- PowerShell Lite for quick diagnostics and safe maintenance from a terminal.
+- PowerShell Lite for quick diagnostics and safe terminal maintenance.
+- PowerShell Tool GUI for a lightweight graphical PowerShell experience.
+- PowerShell launcher for downloading and running the latest GitHub Release ZIP.
 
 ## Full EXE
 
-Use the EXE from GitHub Releases. Some actions require administrator privileges; the app shows admin status in the command bar and status bar.
+Use the ZIP from GitHub Releases. The EXE requests administrator privileges and shows admin status in the command bar and status bar.
 
 Typical flow:
 
@@ -21,6 +23,12 @@ Typical flow:
 
 PowerShell Lite is useful when the EXE is not available or when a quick text-mode report is enough. It writes logs and reports under `%AppData%\NokaraSystemManager`.
 
+## PowerShell Tool GUI
+
+PowerShell Tool GUI is useful for a compact GUI that can run from a raw GitHub one-liner. It does not replace the EXE; it is a lighter companion for selected actions and reports.
+
 ## Reports
 
-Generated reports include Windows, hardware, RAM, storage, network, detected apps, actions and recommendations. They are intended for support and troubleshooting, not as a promise of performance improvement.
+Generated reports include Windows, hardware, RAM, storage, network, detected apps, actions and recommendations. Reports are intended for support and troubleshooting, not as a promise of performance improvement.
+
+Review reports before sharing them because they may contain local user names, machine names, local IPs, adapter names and process names.

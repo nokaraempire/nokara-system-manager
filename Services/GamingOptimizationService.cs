@@ -55,10 +55,10 @@ public sealed class GamingOptimizationService
 
     public Task<ActionResult> DisableUsbSelectiveSuspendAsync(CancellationToken ct = default)
     {
-        var result = ActionResult.Fail("USB Selective Suspend", "Pendiente de implementacion segura en V1.");
-        result.Details = "No se modifica USB Selective Suspend hasta validar lectura y reversión completa por esquema de energía.";
+        var result = ActionResult.Fail("USB Selective Suspend", "Pendiente en v1.2.0 hasta validar backup y reversion por plan de energia.");
+        result.Details = "No se modifica USB Selective Suspend hasta validar lectura y reversion completa por esquema de energia.";
         return Task.FromResult(result);
     }
 
-    public Task<ActionResult> RestoreUsbSelectiveSuspendAsync(CancellationToken ct = default) => Task.FromResult(ActionResult.Ok("USB Selective Suspend", "No hay backup USB pendiente en V1."));
+    public Task<ActionResult> RestoreUsbSelectiveSuspendAsync(CancellationToken ct = default) => Task.FromResult(ActionResult.Ok("USB Selective Suspend", "No hay backup USB pendiente."));
 }

@@ -44,6 +44,7 @@ function Write-NokaraHeader {
     Write-NokaraColor "|  Safe Windows maintenance, gaming and streaming diagnostics |" Cyan "36"
     Write-NokaraColor "+--------------------------------------------------------------+" Cyan "36"
     Write-NokaraColor "No magic FPS. No Defender/Firewall/Windows Update changes. No BCDEDIT/HPET/MSI Mode." DarkGray "90"
+    Write-NokaraColor ("Administrador: {0}" -f ($(if (Test-IsAdmin) { "Si" } else { "No - algunas acciones quedan solo informativas" }))) DarkGray "90"
     Write-Host ""
 }
 
@@ -59,19 +60,22 @@ function Write-Panel {
 
 function Write-Menu {
     Write-Panel "Menu" @(
-        "1.  Mantenimiento rapido",
-        "2.  Flush DNS",
-        "3.  Reparacion basica de red",
-        "4.  Procesos pesados",
-        "5.  Diagnostico de stuttering",
-        "6.  RAM / memoria",
-        "7.  Checklist antes de jugar",
-        "8.  Checklist antes de stream",
-        "9.  Buscar errores de almacenamiento",
-        "10. Exportar diagnostico",
-        "11. Descargar/abrir version EXE",
-        "12. Redes Nokara Empire",
-        "13. Salir"
+        "1.  Diagnostico rapido",
+        "2.  Mantenimiento seguro",
+        "3.  Flush DNS",
+        "4.  Reparacion basica de red",
+        "5.  Procesos pesados",
+        "6.  Diagnostico de stuttering",
+        "7.  RAM / memoria",
+        "8.  Checklist antes de jugar",
+        "9.  Checklist antes de stream",
+        "10. Buscar errores de almacenamiento",
+        "11. Exportar diagnostico",
+        "12. Descargar/abrir version EXE",
+        "13. Limites de seguridad",
+        "14. Abrir PowerShell Tool GUI",
+        "15. Redes Nokara Empire",
+        "0.  Salir"
     )
 }
 
@@ -156,6 +160,26 @@ function Get-NokaraDetectedApps {
         Browsers = @($processes | Where-Object { $_.ProcessName -match "chrome|msedge|firefox|brave|opera" } | Select-Object -ExpandProperty ProcessName -Unique)
         Overlays = @($processes | Where-Object { $_.ProcessName -match "discord|steam|gamebar|nvidia|radeon|medal|outplayed" } | Select-Object -ExpandProperty ProcessName -Unique)
     }
+}
+
+function Invoke-NokaraQuickDiagnostic {
+    $sys = Get-NokaraSystemInfo
+    $net = Get-NokaraNetworkInfo
+    $storage = @(Get-NokaraStorageInfo)
+    $heavy = @(Get-NokaraHeavyProcesses)
+    $apps = Get-NokaraDetectedApps
+    Write-Panel "Diagnostico rapido" @(
+        "Windows: $($sys.Windows)",
+        "Admin: $($sys.Admin)",
+        "CPU: $($sys.Cpu)",
+        "RAM libre: $($sys.FreeRamGB) GB de $($sys.RamGB) GB",
+        "Red: $($net.Adapter) / $($net.IP)",
+        "DNS: $($net.DNS)",
+        "Unidades detectadas: $($storage.Count)",
+        "Procesos >500 MB: $($heavy.Count)",
+        "Streaming: $($apps.Streaming -join ', ')",
+        "Overlays: $($apps.Overlays -join ', ')"
+    )
 }
 
 function Invoke-NokaraQuickMaintenance {
@@ -309,10 +333,34 @@ function Show-NokaraSocialLinks {
     )
 }
 
+function Show-NokaraSafetyLimits {
+    Write-Panel "Limites de seguridad" @(
+        "No desactiva Microsoft Defender.",
+        "No desactiva Firewall.",
+        "No desactiva Windows Update.",
+        "No toca drivers, anticheats ni servicios criticos.",
+        "No usa BCDEDIT, HPET ni MSI Mode.",
+        "Los resets de red piden confirmacion fuerte.",
+        "chkdsk usa /scan, nunca /f ni /r desde Lite.",
+        "Nokara no promete FPS magicos."
+    )
+}
+
 function Invoke-NokaraExeLauncher {
     $url = "$script:RawBaseUrl/scripts/launch.ps1"
     Write-Status "Para usar launcher EXE:"
     Write-NokaraColor "irm `"$url`" | iex" Cyan "36"
+}
+
+function Invoke-NokaraGuiTool {
+    $url = "$script:RawBaseUrl/scripts/nokara-tool.ps1"
+    Write-Status "Abriendo PowerShell Tool GUI..."
+    Write-NokaraColor "Fuente: $url" Cyan "36"
+    try {
+        Invoke-Expression (Invoke-RestMethod -Uri $url -Headers @{ "User-Agent" = "NokaraLite" })
+    } catch {
+        Write-ErrorMessage "No se pudo abrir la GUI: $($_.Exception.Message)"
+    }
 }
 
 function Invoke-NokaraMenu {
@@ -321,19 +369,22 @@ function Invoke-NokaraMenu {
         Write-Menu
         $choice = Read-Host "Elegir opcion"
         switch ($choice) {
-            "1" { Invoke-NokaraQuickMaintenance; Pause-Nokara }
-            "2" { Invoke-NokaraFlushDns; Pause-Nokara }
-            "3" { Invoke-NokaraBasicNetworkRepair; Pause-Nokara }
-            "4" { Get-NokaraHeavyProcesses | Format-Table -AutoSize; Pause-Nokara }
-            "5" { Invoke-NokaraStutteringDiagnostic; Pause-Nokara }
-            "6" { Invoke-NokaraMemoryDiagnostic; Pause-Nokara }
-            "7" { Invoke-NokaraGamingChecklist; Pause-Nokara }
-            "8" { Invoke-NokaraStreamingChecklist; Pause-Nokara }
-            "9" { Invoke-NokaraStorageScan; Pause-Nokara }
-            "10" { Export-NokaraDiagnostic; Pause-Nokara }
-            "11" { Invoke-NokaraExeLauncher; Pause-Nokara }
-            "12" { Show-NokaraSocialLinks; Pause-Nokara }
-            "13" { Write-Success "Saliendo de Nokara Lite."; return }
+            "1" { Invoke-NokaraQuickDiagnostic; Pause-Nokara }
+            "2" { Invoke-NokaraQuickMaintenance; Pause-Nokara }
+            "3" { Invoke-NokaraFlushDns; Pause-Nokara }
+            "4" { Invoke-NokaraBasicNetworkRepair; Pause-Nokara }
+            "5" { Get-NokaraHeavyProcesses | Format-Table -AutoSize; Pause-Nokara }
+            "6" { Invoke-NokaraStutteringDiagnostic; Pause-Nokara }
+            "7" { Invoke-NokaraMemoryDiagnostic; Pause-Nokara }
+            "8" { Invoke-NokaraGamingChecklist; Pause-Nokara }
+            "9" { Invoke-NokaraStreamingChecklist; Pause-Nokara }
+            "10" { Invoke-NokaraStorageScan; Pause-Nokara }
+            "11" { Export-NokaraDiagnostic; Pause-Nokara }
+            "12" { Invoke-NokaraExeLauncher; Pause-Nokara }
+            "13" { Show-NokaraSafetyLimits; Pause-Nokara }
+            "14" { Invoke-NokaraGuiTool; Pause-Nokara }
+            "15" { Show-NokaraSocialLinks; Pause-Nokara }
+            "0" { Write-Success "Saliendo de Nokara Lite."; return }
             default { Write-Warning "Opcion invalida."; Start-Sleep -Milliseconds 900 }
         }
     } while ($true)

@@ -8,10 +8,14 @@
         <WrapPanel>
             <Border Style="{StaticResource CardBorderStyle}" Width="430">
                 <StackPanel>
-                    <TextBlock Text="Modo de uso" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="Seguridad" Style="{StaticResource SectionTitleTextStyle}" />
                     <CheckBox Content="Confirmaciones extra para acciones sensibles" IsChecked="{Binding ExtraConfirmations}" />
-                    <CheckBox Content="Modo avanzado" IsChecked="{Binding ExpertMode}" />
-                    <TextBlock Text="Modo básico prioriza acciones comunes. Modo avanzado muestra acciones medias/altas, pero mantiene confirmaciones." Style="{StaticResource SecondaryTextStyle}" />
+                    <Border Background="{StaticResource SurfaceLowBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="12" Padding="10" Margin="0,10,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Modo avanzado activo" Style="{StaticResource CardTitleTextStyle}" />
+                            <TextBlock Text="Nokara muestra las acciones disponibles y bloquea las pendientes con motivo visible. No hay modo basico ocultando funciones." Style="{StaticResource SecondaryTextStyle}" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Border>
             <Border Style="{StaticResource CardBorderStyle}" Width="430">
@@ -44,11 +48,11 @@
 
         <Border Style="{StaticResource CardBorderStyle}" MaxWidth="900">
             <StackPanel>
-                <TextBlock Text="Configuración" Style="{StaticResource SectionTitleTextStyle}" />
-                <TextBlock Text="Exportar crea un JSON en Config. Importar toma el export más reciente si existe; si no, queda pendiente con motivo visible." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,8" />
+                <TextBlock Text="Configuracion" Style="{StaticResource SectionTitleTextStyle}" />
+                <TextBlock Text="Exportar crea un JSON en Config. Importar toma el export mas reciente si existe; si no, queda pendiente con motivo visible." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,8" />
                 <WrapPanel>
-                    <Button Content="Exportar configuración" Command="{Binding ExportSettingsCommand}" />
-                    <Button Content="Importar configuración" Command="{Binding ImportSettingsCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                    <Button Content="Exportar configuracion" Command="{Binding ExportSettingsCommand}" />
+                    <Button Content="Importar configuracion" Command="{Binding ImportSettingsCommand}" Style="{StaticResource SecondaryButtonStyle}" />
                 </WrapPanel>
             </StackPanel>
         </Border>

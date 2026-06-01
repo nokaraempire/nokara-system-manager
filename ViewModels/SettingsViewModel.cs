@@ -86,6 +86,12 @@ public sealed class SettingsViewModel : ViewModelBase
     public async Task LoadAsync()
     {
         _settings = await _services.Settings.LoadAsync();
+        if (!_settings.ExpertMode)
+        {
+            _settings.ExpertMode = true;
+            await _services.Settings.SaveAsync(_settings);
+        }
+
         OnPropertyChanged(nameof(ExtraConfirmations));
         OnPropertyChanged(nameof(ExpertMode));
         OnPropertyChanged(nameof(PreferredDnsProvider));
@@ -94,6 +100,7 @@ public sealed class SettingsViewModel : ViewModelBase
 
     private async Task SaveAsync()
     {
+        _settings.ExpertMode = true;
         await _services.Settings.SaveAsync(_settings);
         Status = "Ajustes guardados.";
     }
