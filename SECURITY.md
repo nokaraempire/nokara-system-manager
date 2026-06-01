@@ -28,7 +28,7 @@ Actions write logs. Reversible changes create backups when supported. Reports ar
 
 ## Releases and hashes
 
-The launcher downloads `NokaraSystemManager.exe` from GitHub Releases. If `NokaraSystemManager.exe.sha256` is published next to the EXE, the launcher validates SHA256 before execution. If the hash fails, the EXE is deleted and not executed.
+The launcher downloads the portable ZIP from GitHub Releases. If `NokaraSystemManager-vX.Y.Z-win-x64-portable.zip.sha256` is published next to the ZIP, the launcher validates SHA256 before extraction. If `NokaraSystemManager.exe.sha256` is also published, the extracted EXE is validated before execution.
 
 ## SmartScreen
 

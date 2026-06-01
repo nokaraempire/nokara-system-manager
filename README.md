@@ -1,348 +1,122 @@
 # Nokara System Manager
 
-Windows maintenance, gaming, streaming and diagnostics toolkit with a premium WPF interface and a PowerShell Lite mode.
+Nokara System Manager is a Windows toolkit for safe maintenance, gaming, streaming and diagnostics. It ships as a premium WPF EXE and includes PowerShell companions for quick checks, GUI-assisted tweaks and release launching.
 
-Nokara System Manager helps users review common Windows performance issues, run safe maintenance actions, inspect processes, generate reports and apply guided profiles for gaming or streaming setups.
+Current app version: `1.2.0`.
 
-It does **not** promise magic FPS gains. It focuses on diagnosis, safe actions, clear explanations, logs, backups and reversibility when possible.
+Nokara does not promise magic FPS. It helps diagnose common issues, apply safe and visible changes with confirmation, keep logs/backups, and generate readable reports. Real results depend on hardware, Windows, drivers, game settings and background apps.
 
-[Latest release](https://github.com/nokaraempire/nokara-system-manager/releases/latest) · [Report a bug](https://github.com/nokaraempire/nokara-system-manager/issues/new/choose) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
+## Use modes
 
----
+1. Premium WPF EXE: full Nokara System Manager desktop app.
+2. PowerShell Lite: text-mode companion for quick diagnostics and safe maintenance.
+3. PowerShell Tool GUI: standalone PowerShell GUI for selected safe tweaks and reports.
+4. Launcher: downloads the latest portable ZIP from GitHub Releases and starts the EXE.
 
-## Download
+## Highlights
 
-### Recommended: portable EXE
+- WPF desktop app for Windows 10/11.
+- Initial window sized for small screens, centered, resizable and using the native Windows title bar.
+- Top tabs for Dashboard, Maintenance, Diagnostic, Gaming, Network, Streaming, Processes, Privacy, Backups and Settings.
+- About screen opens from the Nokara brand button instead of a separate tab.
+- Diagnostic cards for stuttering, RAM, storage, network, games and streaming context.
+- Safe maintenance actions with admin detection and status feedback.
+- DNS tools, process visibility, backups, action history and final reports.
+- Visible pending-state labels for actions that are not implemented yet.
+- Premium dark scrollbars for app content, tabs and DataGrid tables.
+- PowerShell Lite menu, PowerShell Tool GUI and ZIP-based release launcher.
 
-Download the latest portable build from GitHub Releases:
+## EXE version
 
-[Download latest release](https://github.com/nokaraempire/nokara-system-manager/releases/latest)
+Download the portable ZIP from GitHub Releases. Binaries are not stored in the repository source tree.
 
-For version `v1.1.1`, download:
+Typical release asset:
 
 ```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip
+NokaraSystemManager-v1.2.0-win-x64-portable.zip
+NokaraSystemManager-v1.2.0-win-x64-portable.zip.sha256
+NokaraSystemManager.exe.sha256
 ```
 
-Direct download:
-
-```text
-https://github.com/nokaraempire/nokara-system-manager/releases/download/v1.1.1/NokaraSystemManager-v1.1.1-win-x64-portable.zip
-```
-
-How to use it:
-
-1. Download the `.zip`.
-2. Extract it.
-3. Open the extracted folder.
-4. Run:
+Extract the ZIP and run:
 
 ```powershell
 .\NokaraSystemManager.exe
 ```
 
-Some actions require administrator permissions. The app shows whether it is running as administrator and offers a restart-as-admin action when needed.
+The EXE requests administrator privileges because several features need an elevated context. The app still shows whether it is running as admin.
 
----
+## PowerShell Lite
 
-## Quick start
-
-### Full EXE version
-
-Use this if you want the full visual interface:
-
-```text
-1. Go to Releases.
-2. Download NokaraSystemManager-v1.1.1-win-x64-portable.zip.
-3. Extract the ZIP.
-4. Run NokaraSystemManager.exe.
-```
-
-Release page:
-
-```text
-https://github.com/nokaraempire/nokara-system-manager/releases/latest
-```
-
-### PowerShell Lite
-
-PowerShell Lite runs directly from PowerShell without installing the EXE:
+PowerShell Lite is a text-mode companion for quick diagnostics and safe maintenance:
 
 ```powershell
 irm "https://raw.githubusercontent.com/nokaraempire/nokara-system-manager/main/scripts/nokara-lite.ps1" | iex
 ```
 
-It includes quick maintenance, Flush DNS, basic network repair with confirmation, heavy process review, stuttering checks, RAM diagnostics, gaming/streaming checklists, storage scan and report export.
+It includes quick diagnostic, safe maintenance, Flush DNS, basic network repair with confirmation, heavy process review, stuttering checks, RAM diagnostics, gaming/streaming checklists, storage scan, safety limits, EXE launcher help and report export.
 
-### PowerShell launcher
+## PowerShell Tool GUI
 
-The launcher downloads the latest release build and opens the EXE:
+The PowerShell Tool is a standalone GUI built with Windows Forms. It is useful when you want a lightweight graphical companion without opening the WPF EXE:
+
+```powershell
+irm "https://raw.githubusercontent.com/nokaraempire/nokara-system-manager/main/scripts/nokara-tool.ps1" | iex
+```
+
+It groups actions into Overview, Tweaks, Gaming, Streaming, Network, Storage, Reports and About. Pending actions remain blocked and visible.
+
+## PowerShell launcher
+
+The launcher fetches the latest portable ZIP from GitHub Releases, optionally validates SHA256 assets, extracts it under `%LocalAppData%\NokaraSystemManager\bin`, and starts the EXE:
 
 ```powershell
 irm "https://raw.githubusercontent.com/nokaraempire/nokara-system-manager/main/scripts/launch.ps1" | iex
 ```
 
-The launcher uses GitHub Releases as the download source.
-
----
-
-## Windows SmartScreen warning
-
-When running `NokaraSystemManager.exe`, Windows may show this warning:
-
-```text
-Windows protected your PC
-Microsoft Defender SmartScreen prevented an unrecognized app from starting.
-Publisher: Unknown publisher
-```
-
-This warning can appear because Nokara System Manager is currently a new unsigned executable. Windows may warn about apps that do not yet have publisher reputation or enough download history.
-
-This does **not automatically mean the app is malware**, but users should still be careful and only run files downloaded from the official Nokara Empire repository.
-
-Official release page:
-
-```text
-https://github.com/nokaraempire/nokara-system-manager/releases/latest
-```
-
-To run the app after downloading it from the official release:
-
-1. Click **More info**.
-2. Confirm the app name is:
-
-```text
-NokaraSystemManager.exe
-```
-
-3. Confirm the publisher appears as:
-
-```text
-Unknown publisher
-```
-
-4. Click **Run anyway**.
-
-Do **not** run reuploaded, modified or random fork versions unless you reviewed the code and trust the source.
-
-Long term, this warning can be reduced by signing the executable with a code-signing certificate or distributing through a trusted store. For now, SHA256 hashes are provided in each release so users can verify file integrity.
-
----
-
-## Verify SHA256
-
-Release assets include SHA256 files:
-
-```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
-NokaraSystemManager.exe.sha256
-```
-
-To verify the downloaded ZIP with PowerShell:
-
-```powershell
-Get-FileHash .\NokaraSystemManager-v1.1.1-win-x64-portable.zip -Algorithm SHA256
-```
-
-Compare the result with the value inside:
-
-```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
-```
-
-The EXE hash is included for the executable inside the extracted portable folder.
-
----
-
-## Main features
-
-### Premium EXE interface
-
-* WPF desktop app for Windows.
-* Dark premium UI.
-* Browser-shell navigation with top tabs.
-* Command/address bar.
-* Basic and advanced modes.
-* Admin status indicator.
-* Logs, backups and reports.
-* Guided action cards with risk labels and confirmations.
-
-### Diagnostics
-
-* General system status.
-* Stuttering checks.
-* RAM usage overview.
-* Heavy process detection.
-* Storage checks.
-* Network information.
-* Gaming and streaming readiness.
-* Report generation.
-
-### Gaming / FPS
-
-* Game Mode checks.
-* Game DVR / capture checks.
-* Power plan guidance.
-* Overlay and launcher detection.
-* Wallpaper Engine detection.
-* Heavy process review.
-* Game-specific and global optimization paths.
-
-### Streaming
-
-* Streaming app detection.
-* Discord/voice app detection.
-* Browser and RAM impact review.
-* Gaming + Streaming profile.
-* Safe process-priority guidance.
-* Avoids aggressive network resets during live streaming.
-
-### Maintenance
-
-* Temporary file cleanup.
-* User TEMP cleanup.
-* Windows TEMP analysis.
-* DNS flush.
-* Space analysis.
-* Report export.
-
-### Network / DNS
-
-* Active adapter detection.
-* Current DNS display.
-* Flush DNS.
-* DNS benchmark support.
-* Safe network repair actions with confirmation.
-* Advanced actions are clearly marked.
-
-### Storage
-
-* Disk detection.
-* Free space overview.
-* Safe scan flow.
-* Uses safe scan logic by default.
-* Does not run destructive repair commands automatically.
-
-### Reports
-
-Nokara can generate a final report on the Desktop and also store a copy in AppData.
-
-The report is separated into sections such as:
-
-* Summary.
-* Screen / GPU.
-* Hardware.
-* Games.
-* Streaming.
-* RAM.
-* Network.
-* Storage.
-* Applied changes.
-* Problems found.
-* Recommended next steps.
-
----
+Repository owner, repository name, release tag, install root and logs are configurable variables or parameters.
 
 ## Safety model
 
-Nokara System Manager is intentionally conservative.
+Nokara System Manager is designed to avoid risky "optimizer" behavior. It does not:
 
-It does **not**:
+- Disable Microsoft Defender.
+- Disable Windows Firewall.
+- Disable Windows Update.
+- Use BCDEDIT tweaks.
+- Touch HPET.
+- Apply MSI Mode.
+- Modify GPU drivers or driver settings.
+- Touch anti-cheat systems.
+- Force Realtime process priority.
+- Close processes without confirmation.
+- Delete personal files.
+- Download external RAM-cleaner binaries.
+- Run `chkdsk /f` or `chkdsk /r` automatically.
 
-* Disable Windows Defender.
-* Disable Windows Firewall.
-* Disable Windows Update.
-* Touch anti-cheats.
-* Use BCDEdit tweaks.
-* Touch HPET.
-* Apply MSI Mode tweaks.
-* Modify drivers.
-* Force Realtime process priority.
-* Delete personal files.
-* Run `chkdsk /f` automatically.
-* Run `chkdsk /r` automatically.
-* Close user processes without confirmation.
-* Promise unrealistic FPS improvements.
-
-Sensitive actions show explanations and confirmations before running.
-
----
-
-## PowerShell security note
-
-The commands using `irm | iex` download and execute a script from this repository.
-
-You can review the scripts before running them:
-
-* [scripts/nokara-lite.ps1](scripts/nokara-lite.ps1)
-* [scripts/launch.ps1](scripts/launch.ps1)
-
-If you do not trust remote execution, download the script manually, inspect it, then run it locally.
-
-Example:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\nokara-lite.ps1
-```
-
----
+Storage checks use `chkdsk X: /scan` only, and require explicit confirmation.
 
 ## Logs, backups and reports
 
-Nokara stores runtime data under:
+Runtime data is stored under the current user's AppData:
 
-```text
-%AppData%\NokaraSystemManager
-```
+- Logs: `%AppData%\NokaraSystemManager\Logs`
+- Backups: `%AppData%\NokaraSystemManager\Backups`
+- Config: `%AppData%\NokaraSystemManager\Config`
+- Reports: `%AppData%\NokaraSystemManager\Reports`
+- Lite logs: `%AppData%\NokaraSystemManager\LiteLogs`
+- Tool logs: `%AppData%\NokaraSystemManager\ToolLogs`
+- Launcher logs: `%AppData%\NokaraSystemManager\LauncherLogs`
 
-Common folders:
+Final reports are also written to the Desktop as text files. Review reports before sharing them because they can include machine name, user name, local IP, adapter names and process names.
 
-```text
-Logs
-Backups
-Config
-Reports
-LiteLogs
-LauncherLogs
-```
-
-Generated reports are also copied to the Desktop for quick access.
-
----
-
-## Project structure
-
-```text
-NokaraSystemManager
-├─ Config/
-├─ docs/
-├─ Helpers/
-├─ Models/
-├─ scripts/
-├─ Services/
-├─ Styles/
-├─ ViewModels/
-├─ Views/
-├─ App.xaml
-├─ MainWindow.xaml
-├─ NokaraSystemManager.csproj
-├─ README.md
-├─ SECURITY.md
-├─ CHANGELOG.md
-└─ LICENSE
-```
-
-Release binaries are not stored in the source tree. They are published through GitHub Releases.
-
----
-
-## Build from source
+## Build
 
 Requirements:
 
-* Windows.
-* .NET SDK compatible with the project target framework.
-* WPF support.
+- Windows 10/11.
+- .NET SDK `10.0.300` or compatible SDK with `net10.0-windows` support.
+- PowerShell 5.1+ for the scripts.
 
 Build:
 
@@ -350,119 +124,59 @@ Build:
 dotnet build
 ```
 
-Run:
+## Publish
 
-```powershell
-dotnet run
-```
-
-Publish portable win-x64:
+Create a self-contained single-file Windows x64 publish:
 
 ```powershell
 dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
-Published output is generated under:
+Publish output goes to:
 
 ```text
-bin\Release\net10.0-windows\win-x64\publish
+bin/Release/net10.0-windows/win-x64/publish/
 ```
 
----
-
-## GitHub Releases
-
-Official releases are published here:
-
-```text
-https://github.com/nokaraempire/nokara-system-manager/releases/latest
-```
-
-Release assets for `v1.1.1`:
-
-```text
-NokaraSystemManager-v1.1.1-win-x64-portable.zip
-NokaraSystemManager-v1.1.1-win-x64-portable.zip.sha256
-NokaraSystemManager.exe.sha256
-```
-
-For normal users, download the portable ZIP. GitHub may also show automatic source code archives, but those are mainly for developers.
-
-Do not commit publish outputs or EXE binaries to the repository source tree. Upload release binaries to GitHub Releases instead.
-
----
+Do not commit publish outputs, ZIP files or EXE binaries to the repository. Upload release binaries to GitHub Releases instead.
 
 ## Screenshots
 
-Screenshots will be added after the first public visual pass.
+Screenshots belong in `docs/screenshots/`. Use only real screenshots and avoid exposing local user names, machine names, IP addresses or private process lists.
 
-Recommended screenshot files:
+Recommended screenshots:
 
-```text
-docs/screenshots/dashboard.png
-docs/screenshots/diagnostic.png
-docs/screenshots/processes.png
-docs/screenshots/maintenance.png
-docs/screenshots/report.png
-```
+- `dashboard.png`
+- `diagnostic.png`
+- `maintenance.png`
+- `processes.png`
+- `network.png`
+- `powershell-tool.png`
+- `final-report-redacted.png`
 
-Recommended sections:
+## GitHub releases
 
-* Browser shell / Dashboard.
-* Diagnostic.
-* Processes.
-* Maintenance.
-* Final report.
+Suggested release assets:
 
-<!--
-When screenshots are available, enable this section:
+- `NokaraSystemManager-v1.2.0-win-x64-portable.zip`
+- `NokaraSystemManager-v1.2.0-win-x64-portable.zip.sha256`
+- `NokaraSystemManager.exe.sha256`
+- `RELEASE_NOTES_v1.2.0.md`
 
-![Dashboard](docs/screenshots/dashboard.png)
-![Diagnostic](docs/screenshots/diagnostic.png)
-![Processes](docs/screenshots/processes.png)
-![Maintenance](docs/screenshots/maintenance.png)
--->
+SmartScreen may warn users because the EXE is unsigned or newly published. Users should only download releases from the official Nokara Empire GitHub account.
 
----
+## Nokara Empire
 
-## Known limitations
-
-* The EXE is currently unsigned, so SmartScreen warnings can appear.
-* PowerShell launcher behavior depends on GitHub Releases being available.
-* Some actions require administrator permissions.
-* Storage repair actions are intentionally conservative.
-* Advanced network actions can temporarily interrupt connectivity and require confirmation.
-* Users should only download official releases from the Nokara Empire repository.
-
----
-
-## Roadmap
-
-Possible future improvements:
-
-* Signed installer or signed portable executable.
-* More complete screenshots and documentation.
-* GitHub Actions build pipeline.
-* Automatic release packaging.
-* Better global search inside the EXE.
-* More detailed game detection.
-* More granular backup and restore flows.
-* Improved PowerShell Lite UI.
-
----
+- GitHub: https://github.com/nokaraempire
+- Instagram: https://instagram.com/nokaraempire
+- TikTok: https://tiktok.com/@nokaraempire
+- YouTube: https://youtube.com/@nokaraempire
+- Issues: https://github.com/nokaraempire/nokara-system-manager/issues
 
 ## Credits
 
-Created by **Nokara Empire**.
+Created by Nokara Empire. Developed by kkshi / Fabian Almada.
 
-Developed by **kkshi / Fabián Almada**.
+## Disclaimer
 
-Nokara System Manager is a Windows maintenance, gaming, streaming and diagnostics toolkit focused on safe actions, transparency and practical reporting.
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
-See [LICENSE](LICENSE).
+Use this tool at your own discretion. Always make backups before changing system settings. Nokara System Manager focuses on safe diagnostics and reversible maintenance, but no tool can guarantee performance improvements on every PC.
