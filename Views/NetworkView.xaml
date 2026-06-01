@@ -1,0 +1,75 @@
+<UserControl x:Class="NokaraSystemManager.Views.NetworkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TextBlock Text="Red / DNS" Style="{StaticResource PageTitleTextStyle}" />
+        <TextBlock Text="{Binding Status}" Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,12" />
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <TextBlock Text="Adaptador activo y DNS" Style="{StaticResource SectionTitleTextStyle}" />
+                <TextBlock Text="Cambiar DNS requiere admin y guarda backup. No se aplica ninguna recomendación sin confirmación." Style="{StaticResource MetaTextStyle}" Margin="0,0,0,8" />
+                <WrapPanel>
+                    <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" Width="300" />
+                    <ComboBox ItemsSource="{Binding DnsProviders}" SelectedItem="{Binding SelectedProvider}" Width="250" />
+                    <Button Content="Aplicar DNS" Command="{Binding ApplyDnsCommand}" />
+                    <Button Content="DNS automático" Command="{Binding RestoreDnsAutomaticCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                    <Button Content="Benchmark DNS" Command="{Binding BenchmarkDnsCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                    <Button Content="Actualizar" Command="{Binding RefreshCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                </WrapPanel>
+                <DataGrid ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" MaxHeight="165">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Activo" Binding="{Binding IsActive}" Width="65" />
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Name}" Width="180" />
+                        <DataGridTextColumn Header="IP" Binding="{Binding IpAddress}" Width="130" />
+                        <DataGridTextColumn Header="Gateway" Binding="{Binding Gateway}" Width="130" />
+                        <DataGridTextColumn Header="DNS" Binding="{Binding DnsDisplay}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
+
+        <WrapPanel>
+            <Border Style="{StaticResource CardBorderStyle}" Width="300" MinHeight="150">
+                <StackPanel>
+                    <TextBlock Text="Acciones seguras" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="No cortan internet y son el primer paso recomendado." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,8" />
+                    <Button Content="Flush DNS" Command="{Binding FlushDnsCommand}" />
+                    <Button Content="Benchmark DNS" Command="{Binding BenchmarkDnsCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="300" MinHeight="150">
+                <StackPanel>
+                    <TextBlock Text="Acciones medias" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="Pueden cortar internet unos segundos. Usalas si Flush DNS no alcanza." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,8" />
+                    <Button Content="Release/Renew IP" Command="{Binding ReleaseRenewCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                    <Button Content="DNS automático" Command="{Binding RestoreDnsAutomaticCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="300" MinHeight="150">
+                <StackPanel>
+                    <TextBlock Text="Avanzado" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="Winsock/TCP-IP pueden requerir reinicio. No los uses durante stream." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,8" />
+                    <Button Content="Reset Winsock" Command="{Binding ResetWinsockCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                    <Button Content="Reset TCP/IP" Command="{Binding ResetTcpIpCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                </StackPanel>
+            </Border>
+        </WrapPanel>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <TextBlock Text="Resultado DNS" Style="{StaticResource SectionTitleTextStyle}" />
+                <DataGrid ItemsSource="{Binding DnsResults}" MaxHeight="220">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Proveedor" Binding="{Binding ProviderName}" Width="160" />
+                        <DataGridTextColumn Header="Primario" Binding="{Binding Primary}" Width="120" />
+                        <DataGridTextColumn Header="Promedio" Binding="{Binding AverageLatencyMs}" Width="90" />
+                        <DataGridTextColumn Header="Mejor" Binding="{Binding BestLatencyMs}" Width="80" />
+                        <DataGridTextColumn Header="Fallos" Binding="{Binding Failures}" Width="70" />
+                        <DataGridTextColumn Header="Estado" Binding="{Binding Result}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

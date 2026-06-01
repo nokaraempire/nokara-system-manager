@@ -1,0 +1,81 @@
+<UserControl x:Class="NokaraSystemManager.Views.GamingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:NokaraSystemManager.Views">
+    <StackPanel>
+        <TextBlock Text="Gaming / FPS" Style="{StaticResource PageTitleTextStyle}" />
+        <TextBlock Text="Ajustes seguros, detección de overlays y checklist competitivo. Sin BCDEDIT, HPET, MSI Mode ni cambios de drivers." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,12" />
+
+        <Border Style="{StaticResource HeroCardBorderStyle}" MaxWidth="980">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Competitivo / FPS" FontSize="22" FontWeight="SemiBold" />
+                    <TextBlock Text="Primero detectá procesos, overlays y Wallpaper Engine. Después aplicá solo ajustes reversibles y sin hacks peligrosos." Style="{StaticResource SecondaryTextStyle}" Margin="0,5,0,12" />
+                    <WrapPanel>
+                        <Border Style="{StaticResource SuccessChipBorderStyle}">
+                            <TextBlock Text="Seguro primero" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource SuccessBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource WarningChipBorderStyle}">
+                            <TextBlock Text="Avanzado con confirmación" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource WarningBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource ChipBorderStyle}">
+                            <TextBlock Text="Sin BCDEDIT / HPET / drivers" Style="{StaticResource ChipTextStyle}" />
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" MinWidth="220">
+                    <TextBlock Text="Orden recomendado" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="1. Actualizar detección" Style="{StaticResource MetaTextStyle}" />
+                    <TextBlock Text="2. Revisar warnings" Style="{StaticResource MetaTextStyle}" />
+                    <TextBlock Text="3. Ejecutar acciones seguras" Style="{StaticResource MetaTextStyle}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <DockPanel LastChildFill="False">
+                    <TextBlock Text="Checklist antes de jugar" Style="{StaticResource SectionTitleTextStyle}" />
+                    <Button DockPanel.Dock="Right" Content="Actualizar detección" Command="{Binding RefreshCommand}" Style="{StaticResource SmallButtonStyle}" />
+                </DockPanel>
+                <TextBlock Text="{Binding Recommendation}" Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10" />
+                <ItemsControl ItemsSource="{Binding Checklist}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource SurfaceHighBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="16" Padding="12" Width="210" Margin="0,0,8,8">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StateLabel}" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource MetaTextStyle}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="Acciones y detectores" Style="{StaticResource SectionTitleTextStyle}" />
+        <ItemsControl ItemsSource="{Binding Actions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ActionCardControl />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

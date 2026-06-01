@@ -1,0 +1,21 @@
+<UserControl x:Class="NokaraSystemManager.Views.PrivacyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:NokaraSystemManager.Views">
+    <StackPanel>
+        <TextBlock Text="Privacidad" Style="{StaticResource PageTitleTextStyle}" />
+        <TextBlock Text="Cambios HKCU reversibles para reducir sugerencias, identificadores y ruido visual." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,14" />
+        <ItemsControl ItemsSource="{Binding Actions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ActionCardControl />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

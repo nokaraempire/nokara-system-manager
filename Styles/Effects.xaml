@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <LinearGradientBrush x:Key="AppBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0A0B10" Offset="0" />
+        <GradientStop Color="#10111A" Offset="0.42" />
+        <GradientStop Color="#0B0D15" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SurfaceGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#202231" Offset="0" />
+        <GradientStop Color="#1A1B25" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HeroGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#2B2148" Offset="0" />
+        <GradientStop Color="#1A1B25" Offset="0.58" />
+        <GradientStop Color="#122033" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PrimaryButtonGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#A78BFA" Offset="0" />
+        <GradientStop Color="#8B5CF6" Offset="0.62" />
+        <GradientStop Color="#6D5BD0" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ActiveNavigationBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#463176" Offset="0" />
+        <GradientStop Color="#342A55" Offset="0.62" />
+        <GradientStop Color="#232A42" Offset="1" />
+    </LinearGradientBrush>
+
+    <DropShadowEffect x:Key="SoftShadowEffect" Color="#000000" BlurRadius="16" ShadowDepth="2" Opacity="0.24" />
+    <DropShadowEffect x:Key="CardHoverShadowEffect" Color="#8B5CF6" BlurRadius="18" ShadowDepth="0" Opacity="0.10" />
+    <DropShadowEffect x:Key="SubtleGlowEffect" Color="#8B5CF6" BlurRadius="18" ShadowDepth="0" Opacity="0.12" />
+</ResourceDictionary>

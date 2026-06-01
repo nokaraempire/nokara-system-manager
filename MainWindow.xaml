@@ -1,0 +1,312 @@
+<Window x:Class="NokaraSystemManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:NokaraSystemManager.ViewModels"
+        xmlns:views="clr-namespace:NokaraSystemManager.Views"
+        mc:Ignorable="d"
+        Title="Nokara System Manager"
+        Width="1100"
+        Height="680"
+        MinWidth="950"
+        MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        Background="{StaticResource BackgroundBrush}"
+        Loaded="OnLoaded">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <views:DashboardView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MaintenanceViewModel}">
+            <views:MaintenanceView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DiagnosticViewModel}">
+            <views:DiagnosticView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GamingViewModel}">
+            <views:GamingView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:NetworkViewModel}">
+            <views:NetworkView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StreamingViewModel}">
+            <views:StreamingView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProcessesViewModel}">
+            <views:ProcessesView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PrivacyViewModel}">
+            <views:PrivacyView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProfilesViewModel}">
+            <views:ProfilesView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BackupRestoreViewModel}">
+            <views:BackupRestoreView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <views:AboutView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource AppBackgroundGradientBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource BrowserShellBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource BrowserBrandPillStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Width="28" Height="28" CornerRadius="11" Background="{StaticResource PrimaryContainerBrush}" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1">
+                                <TextBlock Text="N" Foreground="{StaticResource AccentBrush}" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel Grid.Column="1" Margin="8,0,2,0" VerticalAlignment="Center">
+                                <TextBlock Text="Nokara" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock Text="System Manager" Style="{StaticResource MetaTextStyle}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="TabScrollLeftButton"
+                                Grid.Column="0"
+                                Click="OnTabScrollLeft"
+                                Style="{StaticResource BrowserTabScrollButtonStyle}"
+                                ToolTip="Desplazar tabs hacia la izquierda">
+                            <TextBlock Text="‹" />
+                        </Button>
+
+                        <ScrollViewer x:Name="TabStripScrollViewer"
+                                      Grid.Column="1"
+                                      HorizontalScrollBarVisibility="Visible"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      CanContentScroll="False"
+                                      PanningMode="HorizontalOnly"
+                                      ScrollChanged="OnTabStripScrollChanged"
+                                      SizeChanged="OnTabStripSizeChanged"
+                                      PreviewMouseWheel="OnTabStripPreviewMouseWheel">
+                            <ScrollViewer.Resources>
+                                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource TabStripHorizontalScrollBarStyle}" />
+                            </ScrollViewer.Resources>
+                            <ListBox ItemsSource="{Binding NavigationItems}"
+                                     SelectedItem="{Binding SelectedNavigationItem}"
+                                     Style="{StaticResource BrowserTabListBoxStyle}"
+                                     ItemContainerStyle="{StaticResource BrowserTopTabItemStyle}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding IconGlyph}"
+                                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                                       FontSize="13"
+                                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,7,0" />
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontSize="12.5"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                       VerticalAlignment="Center"
+                                                       TextWrapping="NoWrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+
+                        <Button x:Name="TabScrollRightButton"
+                                Grid.Column="2"
+                                Click="OnTabScrollRight"
+                                Style="{StaticResource BrowserTabScrollButtonStyle}"
+                                ToolTip="Desplazar tabs hacia la derecha">
+                            <TextBlock Text="›" />
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Command="{Binding NavigateBackCommand}" Style="{StaticResource BrowserIconButtonStyle}" ToolTip="Atrás">
+                            <TextBlock Text="&#xE72B;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                        </Button>
+                        <Button Command="{Binding NavigateForwardCommand}" Style="{StaticResource BrowserIconButtonStyle}" ToolTip="Adelante">
+                            <TextBlock Text="&#xE72A;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                        </Button>
+                        <Button Command="{Binding NavigateHomeCommand}" Style="{StaticResource BrowserIconButtonStyle}" ToolTip="Inicio">
+                            <TextBlock Text="&#xE80F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                        </Button>
+                        <Button Command="{Binding RefreshCommand}" Style="{StaticResource BrowserIconButtonStyle}" ToolTip="Actualizar">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                        </Button>
+                    </StackPanel>
+
+                    <Grid Grid.Column="1" Margin="6,0,10,0" VerticalAlignment="Center">
+                        <TextBox x:Name="AddressBox"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource BrowserAddressTextBoxStyle}"
+                                 ToolTip="Buscar acción o navegar visualmente por la sección actual" />
+
+                        <Grid IsHitTestVisible="False" Margin="15,0,16,0" VerticalAlignment="Center">
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SearchText}" Value="">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding CurrentAddress}"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       FontSize="12.5"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1"
+                                       Text="  /  "
+                                       Foreground="{StaticResource DisabledTextBrush}"
+                                       FontSize="12.5"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2"
+                                       Text="Buscar acción..."
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       FontSize="12.5"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Popup PlacementTarget="{Binding ElementName=AddressBox}"
+                               Placement="Bottom"
+                               IsOpen="{Binding IsSearchOpen, Mode=OneWay}"
+                               StaysOpen="False"
+                               AllowsTransparency="True"
+                               PopupAnimation="Fade">
+                            <Border Width="{Binding ActualWidth, ElementName=AddressBox}"
+                                    Background="{StaticResource SurfaceHighBrush}"
+                                    BorderBrush="{StaticResource AccentSoftBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="16"
+                                    Padding="8"
+                                    Margin="0,4,0,0">
+                                <ItemsControl ItemsSource="{Binding SearchSuggestions}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.NavigateSearchCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource BrowserSearchSuggestionButtonStyle}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Width="24" Height="24" CornerRadius="8" Background="{StaticResource PrimaryContainerBrush}" BorderBrush="{StaticResource AccentSoftBrush}" BorderThickness="1">
+                                                        <TextBlock Text="{Binding IconGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <StackPanel Grid.Column="1" Margin="8,0,8,0">
+                                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                                        <TextBlock Text="{Binding Description}" Style="{StaticResource MetaTextStyle}" TextTrimming="CharacterEllipsis" />
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Column="2" Text="{Binding Target.Title}" Style="{StaticResource MetaTextStyle}" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center" />
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <WrapPanel Grid.Column="2" VerticalAlignment="Center">
+                        <Button Content="Exportar reporte" Command="{Binding ExportReportCommand}" Style="{StaticResource BrowserCommandButtonStyle}" />
+                        <Button Content="{Binding ModeDisplay}" Command="{Binding ToggleModeCommand}" Style="{StaticResource BrowserCommandButtonStyle}" />
+                        <Border Style="{StaticResource PrimaryChipBorderStyle}" Padding="8,5" Margin="0,0,6,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding AdminDisplay}" Style="{StaticResource ChipTextStyle}" />
+                        </Border>
+                        <Button Content="Reiniciar como admin" Command="{Binding RestartAsAdminCommand}" Style="{StaticResource BrowserAdminRestartButtonStyle}" />
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Padding="16,14,16,12">
+            <ContentControl Content="{Binding CurrentViewModel}" Style="{StaticResource PageContentControlStyle}" />
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Style="{StaticResource BrowserStatusBarStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0" LastChildFill="True" VerticalAlignment="Center">
+                    <Border Width="7" Height="7" CornerRadius="4" Background="{StaticResource AccentBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource MetaTextStyle}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+                <WrapPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
+                    <Border Style="{StaticResource BrowserStatusPillStyle}">
+                        <TextBlock Text="{Binding SelectedNavigationItem.Title}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                    </Border>
+                    <Border Style="{StaticResource BrowserStatusPillStyle}">
+                        <TextBlock Text="{Binding ModeDisplay}" Style="{StaticResource ChipTextStyle}" />
+                    </Border>
+                    <Border Style="{StaticResource BrowserStatusPillStyle}">
+                        <TextBlock Text="{Binding AdminDisplay}" Style="{StaticResource ChipTextStyle}" />
+                    </Border>
+                </WrapPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

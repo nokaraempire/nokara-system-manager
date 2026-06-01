@@ -1,0 +1,96 @@
+<UserControl x:Class="NokaraSystemManager.Views.StreamingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:NokaraSystemManager.Views">
+    <StackPanel>
+        <TextBlock Text="Streaming" Style="{StaticResource PageTitleTextStyle}" />
+        <TextBlock Text="Checklist previo al stream, snapshot liviano y perfil de prioridades sin tocar red agresivamente." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,12" />
+
+        <Border Style="{StaticResource HeroCardBorderStyle}" MaxWidth="980">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Preparación de stream" FontSize="22" FontWeight="SemiBold" />
+                    <TextBlock Text="Priorizá captura, juego y voz sin resets de red, sin limpieza agresiva y sin cerrar procesos automáticamente." Style="{StaticResource SecondaryTextStyle}" Margin="0,5,0,12" />
+                    <WrapPanel>
+                        <Border Style="{StaticResource SuccessChipBorderStyle}">
+                            <TextBlock Text="OBS/Streamlabs/TikTok" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource SuccessBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource PrimaryChipBorderStyle}">
+                            <TextBlock Text="Snapshot liviano" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource WarningChipBorderStyle}">
+                            <TextBlock Text="No resetear red durante vivo" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource WarningBrush}" />
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" MinWidth="220">
+                    <TextBlock Text="Antes de salir en vivo" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="1. Abrir app de stream" Style="{StaticResource MetaTextStyle}" />
+                    <TextBlock Text="2. Actualizar snapshot" Style="{StaticResource MetaTextStyle}" />
+                    <TextBlock Text="3. Revisar top procesos" Style="{StaticResource MetaTextStyle}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <DockPanel LastChildFill="False">
+                    <TextBlock Text="Checklist antes de stream" Style="{StaticResource SectionTitleTextStyle}" />
+                    <Button DockPanel.Dock="Right" Content="Actualizar snapshot" Command="{Binding RefreshCommand}" Style="{StaticResource SmallButtonStyle}" />
+                </DockPanel>
+                <TextBlock Text="{Binding Recommendation}" Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10" />
+                <ItemsControl ItemsSource="{Binding Checklist}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource SurfaceHighBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="16" Padding="12" Width="220" Margin="0,0,8,8">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding StateLabel}" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource MetaTextStyle}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <TextBlock Text="Monitor simple de impacto" Style="{StaticResource SectionTitleTextStyle}" />
+                <DataGrid ItemsSource="{Binding TopProcesses}" MaxHeight="210">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Proceso" Binding="{Binding DisplayName}" Width="190" />
+                        <DataGridTextColumn Header="Categoria" Binding="{Binding Category}" Width="130" />
+                        <DataGridTextColumn Header="RAM MB" Binding="{Binding MemoryMB}" Width="90" />
+                        <DataGridTextColumn Header="Prioridad" Binding="{Binding Priority}" Width="110" />
+                        <DataGridTextColumn Header="Sugerencia" Binding="{Binding RecommendedAction}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="Acciones de streaming" Style="{StaticResource SectionTitleTextStyle}" />
+        <ItemsControl ItemsSource="{Binding Actions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ActionCardControl />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,211 @@
+<UserControl x:Class="NokaraSystemManager.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TextBlock Text="Centro de control" Style="{StaticResource PageTitleTextStyle}" />
+        <TextBlock Text="Vista central para decidir rápido qué revisar, ejecutar o revertir." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,12" />
+
+        <TextBlock Text="Accesos rápidos" Style="{StaticResource SectionTitleTextStyle}" />
+        <Border Style="{StaticResource HeroCardBorderStyle}" MaxWidth="980" MinHeight="168">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Nokara System Manager" FontSize="24" FontWeight="SemiBold" />
+                    <TextBlock Text="Mantenimiento, gaming y streaming sin humo." Style="{StaticResource SecondaryTextStyle}" Margin="0,3,0,12" />
+                    <WrapPanel>
+                        <Border Style="{StaticResource PrimaryChipBorderStyle}">
+                            <TextBlock Text="{Binding Summary.AppVersion, StringFormat=Versión {0}}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource SuccessChipBorderStyle}">
+                            <TextBlock Text="{Binding Summary.LastAction, StringFormat=Última acción: {0}}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource SuccessBrush}" />
+                        </Border>
+                        <Border Style="{StaticResource ChipBorderStyle}">
+                            <TextBlock Text="{Binding Summary.ReversibleChangesCount, StringFormat=Backups: {0}}" Style="{StaticResource ChipTextStyle}" />
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" MinWidth="250">
+                    <TextBlock Text="Arranques rápidos" Style="{StaticResource SectionTitleTextStyle}" Margin="0,0,0,8" />
+                    <WrapPanel>
+                        <Button Content="Mantenimiento rápido" Command="{Binding NavigateCommand}" CommandParameter="Mantenimiento" />
+                        <Button Content="Antes de jugar" Command="{Binding NavigateCommand}" CommandParameter="Gaming" Style="{StaticResource SecondaryButtonStyle}" />
+                        <Button Content="Antes de stream" Command="{Binding NavigateCommand}" CommandParameter="Streaming" Style="{StaticResource SecondaryButtonStyle}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980" Padding="12">
+            <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right" Content="GitHub" Command="{Binding OpenProjectCommand}" Style="{StaticResource SmallButtonStyle}" />
+                <StackPanel>
+                    <TextBlock Text="Creado por Nokara Empire" Style="{StaticResource CardTitleTextStyle}" />
+                    <TextBlock Text="Proyecto público con versión EXE completa, PowerShell Lite, logs, backups y reportes seguros." Style="{StaticResource MetaTextStyle}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ItemsControl ItemsSource="{Binding GuidedCards}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource CompactCardBorderStyle}" Width="305" MinHeight="210">
+                        <StackPanel>
+                            <DockPanel>
+                                <Border Width="28" Height="28" CornerRadius="10" Background="{StaticResource SurfaceHighBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" Margin="0,0,8,0">
+                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="{Binding Title}" Style="{StaticResource CardTitleTextStyle}" VerticalAlignment="Center" />
+                                <Border DockPanel.Dock="Right" Style="{StaticResource PrimaryChipBorderStyle}" Margin="8,0,0,0">
+                                    <TextBlock Text="{Binding RiskLabel}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                                </Border>
+                            </DockPanel>
+                            <TextBlock Text="{Binding Description}" Style="{StaticResource SecondaryTextStyle}" Margin="0,8,0,6" />
+                            <TextBlock Text="{Binding IncludedActions, StringFormat=Incluye: {0}}" Style="{StaticResource MetaTextStyle}" Margin="0,0,0,8" />
+                            <TextBlock Text="{Binding DisabledReason}" Style="{StaticResource MetaTextStyle}" Foreground="{StaticResource AccentHoverBrush}" Margin="0,0,0,8" />
+                            <WrapPanel>
+                                <Button Content="Vista previa" Command="{Binding DataContext.PreviewCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource SecondaryButtonStyle}" />
+                                <Button Content="{Binding ButtonText}" Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding TargetSection}" IsEnabled="{Binding IsImplemented}" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <TextBlock Text="{Binding PreviewMessage}" Style="{StaticResource SecondaryTextStyle}" />
+        </Border>
+
+        <ItemsControl>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <Border Style="{StaticResource CardBorderStyle}" Width="260" MinHeight="170">
+                <StackPanel>
+                    <TextBlock Text="Estado general" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="{Binding Summary.MachineName}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Summary.UserName, StringFormat=Usuario: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.WindowsVersion}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.Architecture, StringFormat=Arquitectura: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.AppVersion, StringFormat=App: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="260" MinHeight="170">
+                <StackPanel>
+                    <TextBlock Text="Rendimiento" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="{Binding Summary.CpuName}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.TotalRamDisplay, StringFormat=RAM total: {0}}" Margin="0,8,0,0" />
+                    <TextBlock Text="{Binding Summary.UsedRamDisplay, StringFormat=RAM usada: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.SystemDriveFreeDisplay, StringFormat=Disco libre: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.GpuDisplay, StringFormat=GPU: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="260" MinHeight="170">
+                <StackPanel>
+                    <TextBlock Text="Red" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="{Binding Summary.ConnectionStatus}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Summary.ActiveNetworkAdapter}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.IpAddress, StringFormat=IP: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.Gateway, StringFormat=Gateway: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.CurrentDns, StringFormat=DNS: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="260" MinHeight="170">
+                <StackPanel>
+                    <TextBlock Text="Mantenimiento" Style="{StaticResource SectionTitleTextStyle}" />
+                    <TextBlock Text="{Binding Summary.LastCleanup, StringFormat=Última limpieza: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.LastAction, StringFormat=Última acción: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.ReversibleChangesCount, StringFormat=Backups reversibles: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.RestorePointStatus, StringFormat=Punto de restauración: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                    <TextBlock Text="{Binding Summary.CurrentPowerPlan, StringFormat=Energía: {0}}" Style="{StaticResource SecondaryTextStyle}" />
+                </StackPanel>
+            </Border>
+        </ItemsControl>
+
+        <TextBlock Text="Recomendaciones inteligentes" Style="{StaticResource SectionTitleTextStyle}" />
+        <ItemsControl ItemsSource="{Binding Recommendations}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980" Padding="12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource PrimaryChipBorderStyle}" VerticalAlignment="Top">
+                                <TextBlock Text="{Binding LevelLabel}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                            </Border>
+                            <StackPanel Grid.Column="1" Margin="12,0">
+                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding Text}" Style="{StaticResource SecondaryTextStyle}" />
+                            </StackPanel>
+                            <Button Grid.Column="2" Content="{Binding SuggestedAction}" Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding TargetSection}" Style="{StaticResource SmallButtonStyle}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="Checklists rápidos" Style="{StaticResource SectionTitleTextStyle}" />
+        <WrapPanel>
+            <Border Style="{StaticResource CardBorderStyle}" Width="430">
+                <StackPanel>
+                    <TextBlock Text="Antes de jugar" Style="{StaticResource SectionTitleTextStyle}" />
+                    <ItemsControl ItemsSource="{Binding GamingChecklist}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding StateLabel}" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" Width="82" />
+                                    <TextBlock Text="{Binding Name}" Width="130" />
+                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource MetaTextStyle}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardBorderStyle}" Width="430">
+                <StackPanel>
+                    <TextBlock Text="Antes de stream" Style="{StaticResource SectionTitleTextStyle}" />
+                    <ItemsControl ItemsSource="{Binding StreamingChecklist}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,0,0,6">
+                                    <TextBlock Text="{Binding StateLabel}" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" Width="82" />
+                                    <TextBlock Text="{Binding Name}" Width="130" />
+                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource MetaTextStyle}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </WrapPanel>
+
+        <Border Style="{StaticResource CardBorderStyle}" MaxWidth="980">
+            <StackPanel>
+                <TextBlock Text="Acciones recientes" Style="{StaticResource SectionTitleTextStyle}" />
+                <DataGrid ItemsSource="{Binding RecentActions}" MaxHeight="220">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding Timestamp}" Width="150" />
+                        <DataGridTextColumn Header="Modulo" Binding="{Binding Module}" Width="110" />
+                        <DataGridTextColumn Header="Acción" Binding="{Binding ActionName}" Width="220" />
+                        <DataGridCheckBoxColumn Header="OK" Binding="{Binding Success}" Width="55" />
+                        <DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

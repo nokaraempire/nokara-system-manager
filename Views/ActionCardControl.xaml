@@ -1,0 +1,74 @@
+<UserControl x:Class="NokaraSystemManager.Views.ActionCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="285"
+             MaxWidth="370">
+    <Border Style="{StaticResource CompactCardBorderStyle}" Width="330" MinHeight="235">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="34" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border Width="28" Height="28" CornerRadius="10" Background="{StaticResource PrimaryContainerBrush}" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1" VerticalAlignment="Top">
+                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource CardTitleTextStyle}" Margin="0,2,10,0" />
+                <Border Grid.Column="2" Style="{StaticResource PrimaryChipBorderStyle}" Margin="0">
+                    <TextBlock Text="{Binding ModeLabel}" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource AccentBrush}" />
+                </Border>
+            </Grid>
+
+            <TextBlock Grid.Row="1" Text="{Binding Description}" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,9" />
+
+            <Border Grid.Row="2" Background="{StaticResource SurfaceLowBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="14" Padding="10" Margin="0,0,0,9">
+                <StackPanel>
+                    <TextBlock Text="{Binding WhenToUse, StringFormat=Uso: {0}}" Style="{StaticResource MetaTextStyle}" Margin="0,0,0,5" />
+                    <TextBlock Text="{Binding ExpectedImpact, StringFormat=Impacto: {0}}" Style="{StaticResource MetaTextStyle}" Margin="0,0,0,5" />
+                    <TextBlock Text="{Binding CurrentState, StringFormat=Estado: {0}}" Style="{StaticResource MetaTextStyle}" />
+                    <TextBlock Text="{Binding DisabledReason}" Style="{StaticResource MetaTextStyle}" Foreground="{StaticResource WarningBrush}" Margin="0,7,0,0" />
+                </StackPanel>
+            </Border>
+
+            <WrapPanel Grid.Row="3" Margin="0,0,0,4">
+                <Border Style="{StaticResource ChipBorderStyle}">
+                    <TextBlock Text="{Binding RiskLabel}" Style="{StaticResource ChipTextStyle}" />
+                </Border>
+                <Border Style="{StaticResource WarningChipBorderStyle}"
+                        Visibility="{Binding RequiresAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Admin" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource WarningBrush}" />
+                </Border>
+                <Border Style="{StaticResource SuccessChipBorderStyle}"
+                        Visibility="{Binding IsReversible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Reversible" Style="{StaticResource ChipTextStyle}" Foreground="{StaticResource SuccessBrush}" />
+                </Border>
+                <Border Style="{StaticResource ChipBorderStyle}"
+                        Visibility="{Binding RequiresRestart, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Reinicio" Style="{StaticResource ChipTextStyle}" />
+                </Border>
+            </WrapPanel>
+
+            <Grid Grid.Row="4" Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding LastResult}" Style="{StaticResource MetaTextStyle}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <Button Grid.Column="1"
+                        Content="{Binding ExecuteLabel}"
+                        Command="{Binding ExecuteCommand}"
+                        Style="{StaticResource SmallButtonStyle}"
+                        ToolTip="{Binding DisabledReason}" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
